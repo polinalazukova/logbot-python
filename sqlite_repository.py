@@ -1,15 +1,18 @@
+#реализация репозитория для управления пользователями с использованием базы данных
 import sqlite3
 from abstract_repository import AbstractUserRepository
 
 class SQLiteUserRepository(AbstractUserRepository):
     DB_NAME = "userSS.db"
 
+    # Инициализация базы данных
     def __init__(self):
         self._init_db()
 
+    # создание таблицы "users" в базе данных
     def _init_db(self):
-        conn = sqlite3.connect(self.DB_NAME)
-        cursor = conn.cursor()
+        conn = sqlite3.connect(self.DB_NAME) # Подключаемся к базе данных
+        cursor = conn.cursor()# Создаем курсор для выполнения SQL-запросов
         cursor.execute("""
         CREATE TABLE IF NOT EXISTS users (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -31,7 +34,7 @@ class SQLiteUserRepository(AbstractUserRepository):
             VALUES (?, ?, ?, 'yes')
             """, (username, chat_id, current_server))
             conn.commit()
-        except sqlite3.IntegrityError:
+        except sqlite3.IntegrityError: # Обрабатываем ошибку, если пользователь с таким chat_id уже существует
             print(f"User with chat_id {chat_id} already exists.")
         finally:
             conn.close()
@@ -77,7 +80,7 @@ class SQLiteUserRepository(AbstractUserRepository):
         SELECT current_server
         FROM users
         WHERE chat_id = ?
-        """, (chat_id,))
+        """, (chat_id,)) # Выбираем текущий сервер для пользователя с указанным chat_id
         result = cursor.fetchone()  # Получаем одну строку результата
         conn.close()
         return result[0]

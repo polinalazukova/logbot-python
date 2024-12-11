@@ -1,3 +1,4 @@
+#задает интерфейс для работы с репозиториями пользователей
 from abc import ABC, abstractmethod
 
 class AbstractUserRepository(ABC):
