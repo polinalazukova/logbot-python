@@ -3,11 +3,7 @@ from abc import ABC, abstractmethod
 
 class AbstractUserRepository(ABC):
     @abstractmethod
-    def add_user(self, username, chat_id, current_server=None):
-        pass
-
-    @abstractmethod
-    def update_user_server(self, chat_id, server_name):
+    def add_user(self, username, chat_id):
         pass
 
     @abstractmethod
@@ -19,5 +15,21 @@ class AbstractUserRepository(ABC):
         pass
 
     @abstractmethod
-    def get_user_server(self,chat_id):
+    def get_servers_for_user(self,chat_id):
+        pass
+
+    @abstractmethod
+    def has_no_servers(self, chat_id):
+        pass
+
+    @abstractmethod
+    def remove_all_servers(self, chat_id):
+        pass
+
+    @abstractmethod
+    def remove_server(self, chat_id, server_name):
+        pass
+
+    @abstractmethod
+    def add_server(self, chat_id, server_name):
         pass
