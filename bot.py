@@ -8,7 +8,7 @@ user_repository = SQLiteUserRepository()
 # Initialize bot
 bot = telebot.TeleBot(os.environ['LOGGER_BOT_TOKEN'])
 
-AVAILABLE_SERVERS = ["Сервер 1", "Сервер 2"]
+AVAILABLE_SERVERS = ["Отписаться от серверов","Сервер 1", "Сервер 2"]
 
 # Устанавливаем команды для бота
 bot.set_my_commands([
@@ -53,9 +53,22 @@ def choose_server(message):
 
 @bot.message_handler(func=lambda message: message.text in AVAILABLE_SERVERS)
 def set_server(message):
-    user_repository.update_user_server(message.chat.id, message.text)
-    bot.send_message(message.chat.id, f"Вы выбрали {message.text}. Теперь вы будете получать уведомления от этого сервера.",
+    if message.text == 'Отписаться от серверов':
+        if user_repository.get_user_server(message.chat.id) == "None":
+            bot.send_message(message.chat.id,
+                         "Вы и так не подписаны ни на один сервер.",
+                         reply_markup=telebot.types.ReplyKeyboardRemove())
+        else: bot.send_message(message.chat.id,
+                         "Вы отписались от сервера.",
+                         reply_markup=telebot.types.ReplyKeyboardRemove())
+        user_repository.update_user_server(message.chat.id, "None")
+    else:
+        if user_repository.get_user_server(message.chat.id) == message.text:
+            bot.send_message(message.chat.id,"Вы уже подписаны на этот сервер.",
                      reply_markup=telebot.types.ReplyKeyboardRemove())
+        else: bot.send_message(message.chat.id, f"Вы выбрали {message.text}. Теперь вы будете получать уведомления от этого сервера.",
+                     reply_markup=telebot.types.ReplyKeyboardRemove())
+        user_repository.update_user_server(message.chat.id, message.text)
 
 
 @bot.message_handler(commands=['notifications'])
@@ -91,3 +104,5 @@ def handle_unknown(message):
 
 if __name__ == '__main__':
     bot.polling(none_stop=True)
+
+

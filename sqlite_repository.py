@@ -69,3 +69,15 @@ class SQLiteUserRepository(AbstractUserRepository):
         users = cursor.fetchall()
         conn.close()
         return users
+
+    def get_user_server(self, chat_id):
+        conn = sqlite3.connect(self.DB_NAME)
+        cursor = conn.cursor()
+        cursor.execute("""
+        SELECT current_server
+        FROM users
+        WHERE chat_id = ?
+        """, (chat_id,))
+        result = cursor.fetchone()  # Получаем одну строку результата
+        conn.close()
+        return result[0]

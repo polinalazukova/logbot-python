@@ -16,3 +16,7 @@ class AbstractUserRepository(ABC):
     @abstractmethod
     def get_active_users(self):
         pass
+
+    @abstractmethod
+    def get_user_server(self,chat_id):
+        pass
