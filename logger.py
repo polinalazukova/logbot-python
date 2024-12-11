@@ -37,20 +37,3 @@ def notify_error(server_name, message):
                 bot.send_message(chat_id=chat_id, text=message)
             except Exception as e:
                 print(f"Ошибка при отправке уведомления пользователю {username}: {e}")
-
-'''def notify_error(server_name, message):
-    # Получаем активных пользователей
-    users = user_repository.get_active_users()
-
-    # Проходим по всем пользователям и отправляем уведомления
-    for user in users:
-        username, chat_id, current_server = user
-        if current_server == server_name:
-            try:
-                # Логирование перед отправкой сообщения
-                print(f"Sending error message to {username} (chat_id: {chat_id}) for server {server_name}")
-                bot.send_message(chat_id=chat_id, text=message)
-            except Exception as e:
-                # Логирование ошибок при отправке
-                print(f"Ошибка при отправке уведомления пользователю {username} (chat_id: {chat_id}): {e}")
-'''
