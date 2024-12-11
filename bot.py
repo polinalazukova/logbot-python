@@ -96,33 +96,6 @@ def manage_server(message):
         user_repository.add_server(message.chat.id, message.text)
         bot.send_message(message.chat.id, f"Вы подписались на сервер: {message.text}")
 
-# @bot.message_handler(func=lambda message: message.text == "Удалить сервер")
-# def remove_server(message):
-#     user_servers = user_repository.get_servers_for_user(message.chat.id)
-#
-#     if not user_servers:
-#         bot.send_message(message.chat.id, "Вы не подписаны на серверы, чтобы их удалить.")
-#     else:
-#         keyboard = telebot.types.ReplyKeyboardMarkup(one_time_keyboard=True, resize_keyboard=True)
-#         for server in user_servers:
-#             keyboard.add(server)
-#         keyboard.add("Отмена")
-#         bot.send_message(
-#             message.chat.id,
-#             "Выберите сервер для удаления:",
-#             reply_markup=keyboard
-#         )
-#
-# @bot.message_handler(func=lambda message: message.text in user_repository.get_servers_for_user(message.chat.id))
-# def handle_remove_selected_server(message):
-#     user_servers = user_repository.get_servers_for_user(message.chat.id)
-#
-#     # Проверка, является ли выбранный сервер добавленным или удаляемым
-#     if message.text not in user_servers:
-#         bot.send_message(message.chat.id, "Вы не подписаны на этот сервер.")
-#     else:
-#         user_repository.remove_server(message.chat.id, message.text)
-#         bot.send_message(message.chat.id, f"Вы удалили сервер: {message.text}")
 
 @bot.message_handler(commands=['notifications'])
 def notifications_settings(message):
